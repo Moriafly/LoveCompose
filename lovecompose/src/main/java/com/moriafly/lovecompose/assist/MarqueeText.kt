@@ -19,6 +19,8 @@
 package com.moriafly.lovecompose.assist
 
 import android.content.Context
+import android.graphics.Typeface
+import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -28,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.viewinterop.AndroidView
 
 /**
@@ -37,6 +40,7 @@ import androidx.compose.ui.viewinterop.AndroidView
  * @param modifier
  * @param color 文本颜色
  * @param fontSizePx 文本大小（单位：像素 px）
+ * @param fontWeight 字重（需要 Android 9 及以上版本）
  * @param isHorizontalFadingEdgeEnabled 两边是否淡出
  * @param marqueeRepeatLimit 滚动次数
  */
@@ -46,6 +50,7 @@ fun MarqueeText(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     @Px fontSizePx: Float,
+    fontWeight: FontWeight = FontWeight.Normal,
     isHorizontalFadingEdgeEnabled: Boolean = true,
     marqueeRepeatLimit: Int = 1
 ) {
@@ -61,6 +66,9 @@ fun MarqueeText(
                 setTextColor(color.toArgb())
                 this.isHorizontalFadingEdgeEnabled = isHorizontalFadingEdgeEnabled
                 this.marqueeRepeatLimit = marqueeRepeatLimit
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    this.typeface = Typeface.create(Typeface.DEFAULT, fontWeight.weight, false)
+                }
             }
         }
     )
