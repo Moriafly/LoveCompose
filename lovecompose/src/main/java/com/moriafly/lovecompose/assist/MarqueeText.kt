@@ -24,6 +24,7 @@ import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.View
 import androidx.annotation.Px
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 
 /**
@@ -50,6 +52,7 @@ fun MarqueeText(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     @Px fontSizePx: Float,
+    textAlign: TextAlign = TextAlign.Start,
     fontWeight: FontWeight = FontWeight.Normal,
     isHorizontalFadingEdgeEnabled: Boolean = true,
     marqueeRepeatLimit: Int = 1
@@ -61,6 +64,11 @@ fun MarqueeText(
         modifier = modifier,
         update = { view ->
             view.apply {
+                textAlignment = when(textAlign) {
+                    TextAlign.Start -> View.TEXT_ALIGNMENT_TEXT_START
+                    TextAlign.Center-> View.TEXT_ALIGNMENT_CENTER
+                    else -> View.TEXT_ALIGNMENT_TEXT_START
+                }
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSizePx)
                 this.text = text
                 setTextColor(color.toArgb())
